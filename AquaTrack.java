@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class main {
+public class AquaTrack {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String menu = """
