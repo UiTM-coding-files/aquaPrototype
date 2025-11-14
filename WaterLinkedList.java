@@ -61,36 +61,39 @@ public class WaterLinkedList implements Iterable<SensorReading>, Serializable {
 
     public int size() { return size; }
 
-    public double averageLevel() {
+    // Average risk across readings
+    public double averageRisk() {
         if (head == null) return Double.NaN;
         double sum = 0;
         int count = 0;
         for (SensorReading r : this) {
-            sum += r.getLevel();
+            sum += r.riskScore();
             count++;
         }
         return count == 0 ? Double.NaN : sum / count;
     }
 
-    public SensorReading minLevel() {
+    // Reading with minimum risk
+    public SensorReading minRiskReading() {
         Node cur = head;
         if (cur == null) return null;
         SensorReading min = cur.data;
         cur = cur.next;
         while (cur != null) {
-            if (cur.data.getLevel() < min.getLevel()) min = cur.data;
+            if (cur.data.riskScore() < min.riskScore()) min = cur.data;
             cur = cur.next;
         }
         return min;
     }
 
-    public SensorReading maxLevel() {
+    // Reading with maximum risk
+    public SensorReading maxRiskReading() {
         Node cur = head;
         if (cur == null) return null;
         SensorReading max = cur.data;
         cur = cur.next;
         while (cur != null) {
-            if (cur.data.getLevel() > max.getLevel()) max = cur.data;
+            if (cur.data.riskScore() > max.riskScore()) max = cur.data;
             cur = cur.next;
         }
         return max;
@@ -98,7 +101,7 @@ public class WaterLinkedList implements Iterable<SensorReading>, Serializable {
 
     public void saveCsv(File file) throws IOException {
         try (BufferedWriter w = new BufferedWriter(new FileWriter(file))) {
-            for (SensorReading r : this) w.write(r.toCsv() + "\n");
+            for (SensorReading r : this) w.write(r.toCsv() + System.lineSeparator());
         }
     }
 

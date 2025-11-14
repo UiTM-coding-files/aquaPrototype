@@ -21,7 +21,7 @@ public class WaterMonitoringSystem {
             System.out.println("\nAquaTrack - water monitoring (linked list)");
             System.out.println("1) Add reading");
             System.out.println("2) List readings");
-            System.out.println("3) Stats (avg/min/max level)");
+            System.out.println("3) Stats (avg/min/max risk)");
             System.out.println("4) Remove by id");
             System.out.println("5) Save");
             System.out.println("0) Exit");
@@ -41,14 +41,19 @@ public class WaterMonitoringSystem {
 
     private void addReading(Scanner in) {
         try {
-            System.out.print("level (m): ");
-            double level = Double.parseDouble(in.nextLine().trim());
             System.out.print("pH: ");
             double pH = Double.parseDouble(in.nextLine().trim());
-            System.out.print("turbidity (NTU): ");
-            double turb = Double.parseDouble(in.nextLine().trim());
+            System.out.print("magnesium (mg/L): ");
+            double mg = Double.parseDouble(in.nextLine().trim());
+            System.out.print("mercury (mg/L): ");
+            double hg = Double.parseDouble(in.nextLine().trim());
+            System.out.print("oil (mg/L): ");
+            double oil = Double.parseDouble(in.nextLine().trim());
+            System.out.print("trash (items/m^3): ");
+            double trash = Double.parseDouble(in.nextLine().trim());
+
             String id = UUID.randomUUID().toString().substring(0,8);
-            SensorReading r = new SensorReading(id, Instant.now(), level, pH, turb);
+            SensorReading r = new SensorReading(id, Instant.now(), pH, mg, hg, oil, trash);
             readings.addLast(r);
             System.out.println("Added: " + r);
         } catch (Exception e) {
@@ -64,11 +69,11 @@ public class WaterMonitoringSystem {
 
     private void stats() {
         if (readings.size() == 0) { System.out.println("no readings"); return; }
-        System.out.printf("count=%d avg=%.3f min=%s max=%s%n",
+        System.out.printf("count=%d avgRisk=%.2f min=%s max=%s%n",
             readings.size(),
-            readings.averageLevel(),
-            readings.minLevel(),
-            readings.maxLevel());
+            readings.averageRisk(),
+            readings.minRiskReading(),
+            readings.maxRiskReading());
     }
 
     private void removeById(Scanner in) {
