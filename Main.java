@@ -1,7 +1,5 @@
-import java.util.*;
-
-public class Main{
-    public static void main (String[] args) {
-        System.out.println("This is a prototype Java program.");
+public class main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
     }
 }
